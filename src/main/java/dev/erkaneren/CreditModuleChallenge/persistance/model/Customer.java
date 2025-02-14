@@ -1,23 +1,33 @@
 package dev.erkaneren.CreditModuleChallenge.persistance.model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name = "Customer")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Customer {
-
 	@Id
-	@GeneratedValue(strategy = GenerationType.UUID, generator = "customer_generator")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_squencer")
-	@Column(name = "squence")
-	private long _index;
 
 	@Column(name = "name")
 	private String name;
@@ -31,64 +41,6 @@ public class Customer {
 	@Column(name = "usedCreditLimit")
 	private long usedCreditLimit;
 
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getSurname() {
-		return surname;
-	}
-
-	public void setSurname(String surname) {
-		this.surname = surname;
-	}
-
-	public long getCreditLimit() {
-		return creditLimit;
-	}
-
-	public void setCreditLimit(long creditLimit) {
-		this.creditLimit = creditLimit;
-	}
-
-	public long getUsedCreditLimit() {
-		return usedCreditLimit;
-	}
-
-	public void setUsedCreditLimit(long usedCreditLimit) {
-		this.usedCreditLimit = usedCreditLimit;
-	}
-
-	public Customer() {
-	}
-
-	public Customer(long id, String name, String surname, long creditLimit, long usedCreditLimit) {
-		this.id = id;
-		this.name = name;
-		this.surname = surname;
-		this.creditLimit = creditLimit;
-		this.usedCreditLimit = usedCreditLimit;
-	}
-
-	@Override
-	public String toString() {
-		return "Tutorial" +
-			"[ id=" + getId() +
-			", name=" + getName() +
-			", surname=" + getSurname() +
-			", creditLimit=" + getCreditLimit() +
-			", usedCreditLimit=" + getUsedCreditLimit() + "]";
-	}
+    @OneToMany(mappedBy = "customer")
+    private List<Loan> loans;
 }
