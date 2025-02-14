@@ -12,8 +12,12 @@ import jakarta.persistence.Table;
 public class Customer {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "customer_generator")
+	@GeneratedValue(strategy = GenerationType.UUID, generator = "customer_generator")
 	private long id;
+
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_squencer")
+	@Column(name = "squence")
+	private long _index;
 
 	@Column(name = "name")
 	private String name;
@@ -87,6 +91,4 @@ public class Customer {
 			", creditLimit=" + getCreditLimit() +
 			", usedCreditLimit=" + getUsedCreditLimit() + "]";
 	}
-
-	
 }
